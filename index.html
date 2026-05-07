@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>D1 Training Cary — Get Started</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:        #C8102E;
+      --red-dark:   #a00d25;
+      --red-glow:   rgba(200,16,46,0.35);
+      --black:      #0a0a0a;
+      --surface:    #111111;
+      --surface2:   #1a1a1a;
+      --surface3:   #222222;
+      --border:     rgba(255,255,255,0.08);
+      --border-act: rgba(200,16,46,0.6);
+      --white:      #ffffff;
+      --grey:       #888a8d;
+      --grey-light: #c0c2c4;
+      --font-head:  'Barlow Condensed', sans-serif;
+      --font-body:  'Barlow', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 16px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── BACKGROUND TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255,255,255,0.012) 2px,
+          rgba(255,255,255,0.012) 4px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HERO HEADER ── */
+    .hero {
+      position: relative;
+      background: var(--red);
+      overflow: hidden;
+      padding: 36px 24px 32px;
+      text-align: center;
+    }
+
+    /* diagonal slash accent */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      height: 28px;
+      background: var(--black);
+      clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    }
+
+    /* noise overlay on hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .hero-inner { position: relative; z-index: 1; }
+
+    .logo-wrap {
+      display: inline-block;
+      animation: dropIn 0.55s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .logo-wrap svg {
+      width: 120px;
+      height: auto;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
+    }
+
+    /* make logo white on red bg */
+    .logo-wrap svg .cls-3 { fill: #fff; }
+    .logo-wrap svg .cls-4 { fill: rgba(255,255,255,0.6); }
+    .logo-wrap svg .cls-1,
+    .logo-wrap svg .cls-2 { fill: var(--red); }
+
+    .hero-headline {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(2.6rem, 10vw, 3.4rem);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-top: 18px;
+      animation: dropIn 0.55s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: clamp(1rem, 4.5vw, 1.2rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.78);
+      margin-top: 6px;
+      animation: dropIn 0.55s 0.18s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .hero-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      animation: dropIn 0.55s 0.25s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .hero-location svg {
+      width: 13px; height: 13px;
+      fill: rgba(255,255,255,0.65);
+    }
+
+    /* ── FORM WRAPPER ── */
+    .form-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 28px 18px 48px;
+    }
+
+    .section-label {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin: 28px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border-act), transparent);
+    }
+
+    /* ── INPUTS ── */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-light);
+    }
+
+    label .req {
+      color: var(--red);
+      margin-left: 2px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 13px 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input::placeholder { color: rgba(255,255,255,0.2); }
+
+    input:focus, select:focus {
+      border-color: var(--red);
+      background: var(--surface3);
+      box-shadow: 0 0 0 3px var(--red-glow);
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888a8d' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+      cursor: pointer;
+    }
+
+    select option {
+      background: #1a1a1a;
+      color: var(--white);
+    }
+
+    /* ── TAP-TO-SELECT (locations) ── */
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip-group input[type="radio"],
+    .chip-group input[type="checkbox"] {
+      display: none;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border);
+      background: var(--surface2);
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--grey-light);
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s, color 0.18s, transform 0.12s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .chip:active { transform: scale(0.96); }
+
+    input[type="radio"]:checked + .chip,
+    input[type="checkbox"]:checked + .chip {
+      border-color: var(--red);
+      background: rgba(200,16,46,0.15);
+      color: var(--white);
+      box-shadow: 0 0 0 1px var(--red);
+    }
+
+    /* ── MULTI-SELECT PILLS ── */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill-group input[type="checkbox"] { display: none; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: var(--surface2);
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--grey-light);
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s, color 0.18s, transform 0.12s;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .pill:active { transform: scale(0.96); }
+
+    .pill .check-icon {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid var(--grey);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .pill .check-icon svg {
+      width: 8px; height: 8px;
+      fill: none;
+      stroke: var(--white);
+      stroke-width: 2.5;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    input[type="checkbox"]:checked + .pill {
+      border-color: var(--red);
+      background: rgba(200,16,46,0.15);
+      color: var(--white);
+      box-shadow: 0 0 0 1px var(--red);
+    }
+
+    input[type="checkbox"]:checked + .pill .check-icon {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    input[type="checkbox"]:checked + .pill .check-icon svg {
+      opacity: 1;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0 0;
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-btn {
+      width: 100%;
+      margin-top: 32px;
+      padding: 17px 24px;
+      background: var(--red);
+      border: none;
+      border-radius: 6px;
+      color: var(--white);
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .submit-btn:hover { background: var(--red-dark); box-shadow: 0 6px 24px var(--red-glow); }
+    .submit-btn:active { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .submit-btn .btn-loader {
+      display: none;
+      width: 20px; height: 20px;
+      border: 2.5px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto;
+    }
+
+    .submit-btn.loading .btn-text { display: none; }
+    .submit-btn.loading .btn-loader { display: block; }
+
+    /* ── SUCCESS SCREEN ── */
+    #successScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--black);
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      text-align: center;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    #successScreen.active { display: flex; }
+
+    .success-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(200,16,46,0.12);
+      border: 2px solid var(--red);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 28px;
+      animation: popIn 0.5s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .success-icon svg {
+      width: 38px; height: 38px;
+      fill: none;
+      stroke: var(--red);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .success-logo {
+      margin-bottom: 24px;
+      animation: dropIn 0.5s 0.05s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .success-logo svg { width: 90px; height: auto; }
+
+    .success-title {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: clamp(2.2rem, 9vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      color: var(--white);
+      animation: dropIn 0.5s 0.3s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .success-sub {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--grey-light);
+      margin-top: 12px;
+      line-height: 1.5;
+      max-width: 320px;
+      animation: dropIn 0.5s 0.38s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .success-sub strong { color: var(--white); }
+
+    .success-divider {
+      width: 60px; height: 3px;
+      background: var(--red);
+      border-radius: 2px;
+      margin: 20px auto;
+      animation: dropIn 0.5s 0.45s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    /* ── VALIDATION ── */
+    .field-error {
+      font-size: 0.78rem;
+      color: #ff6b6b;
+      font-weight: 500;
+      display: none;
+    }
+
+    .field.invalid input,
+    .field.invalid select {
+      border-color: #ff4444;
+      box-shadow: 0 0 0 3px rgba(255,68,68,0.2);
+    }
+
+    .field.invalid .field-error { display: block; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes dropIn {
+      from { opacity: 0; transform: translateY(-14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── FOOTER NOTE ── */
+    .form-note {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--grey);
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="logo-wrap">
+      <!-- D1 Training Official Logo SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 257.79 248.83">
+        <defs>
+          <style>
+            .cls-1 { fill-rule: evenodd; }
+            .cls-1, .cls-2 { fill: #C8102E; }
+            .cls-3 { fill: #ffffff; }
+            .cls-4 { fill: rgba(255,255,255,0.55); }
+          </style>
+        </defs>
+        <g>
+          <g id="Layer_1">
+            <path class="cls-3" d="M29.45,12.06h186.47c9.5,0,17.21,7.71,17.21,17.21v144.4c0,9.5-7.71,17.21-17.21,17.21H29.45c-9.5,0-17.21-7.71-17.21-17.21V29.28c0-9.5,7.71-17.21,17.21-17.21Z"/>
+            <path class="cls-4" d="M215.93,12.06c9.51,0,17.21,7.71,17.21,17.21v144.4c0,9.51-7.7,17.21-17.21,17.21H29.45c-9.51,0-17.21-7.71-17.21-17.21V29.28c0-9.51,7.71-17.21,17.21-17.21h186.48M215.93,4.85H29.45C15.98,4.85,5.02,15.81,5.02,29.28v144.4c0,13.47,10.96,24.43,24.43,24.43h186.48c13.47,0,24.43-10.96,24.43-24.43V29.28c0-13.47-10.96-24.43-24.43-24.43h0Z"/>
+            <g>
+              <path class="cls-1" d="M50.06,41.38c25.4.19,48.31-2.39,64.11,6.73,9.8,5.66,17.37,13.23,22.43,23.07,19.45,37.77-6.09,81.84-41.34,84.95-15.06,1.32-27.9.37-45.51.31V42.34c-.03-.45-.05-.91.32-.96ZM77.31,67.98v62.5c13.57.88,22.61-.69,29.49-8.33,14.37-15.94,9.34-49.73-12.51-54.49-5.24-1.14-10.05-.34-16.66-.64-.37.05-.34.51-.32.96Z"/>
+              <path class="cls-1" d="M188.85,48.11v76.28h-18.91c-.11-11.42.14-27.02,0-40.38-.05-4.38.36-9.87-.96-12.18-2.15-3.76-7.97-1.97-12.18-2.56v-8.97c9.29-1.82,15.85-6.37,21.15-12.18h10.9Z"/>
+            </g>
+            <rect class="cls-2" x="155.18" y="139.46" width="51.94" height="16.57"/>
+            <path class="cls-4" d="M252.76,193.04c0,1.59-.56,2.95-1.69,4.07s-2.48,1.69-4.07,1.69-2.95-.56-4.07-1.69c-1.13-1.13-1.69-2.48-1.69-4.07s.56-2.95,1.69-4.07c1.13-1.13,2.48-1.69,4.07-1.69s2.95.56,4.07,1.69,1.69,2.48,1.69,4.07ZM251.49,193.04c0-1.24-.44-2.3-1.32-3.19-.88-.89-1.94-1.34-3.18-1.34s-2.3.45-3.17,1.34c-.88.89-1.32,1.96-1.32,3.19s.44,2.3,1.32,3.2c.88.89,1.94,1.34,3.17,1.34s2.3-.45,3.18-1.34c.88-.89,1.32-1.96,1.32-3.2ZM250.24,195.77h-1.81l-1.74-2.11h-.57v2.11h-1.41v-5.74h2.18c.4,0,.73.02.97.05.24.03.49.11.73.24.26.15.45.32.58.53s.18.47.18.78c0,.42-.12.76-.35,1.03s-.54.48-.92.63l2.17,2.47ZM247.77,191.74c0-.12-.03-.23-.08-.33s-.14-.18-.26-.24c-.11-.06-.24-.1-.38-.12s-.31-.02-.49-.02h-.45v1.61h.34c.24,0,.44-.02.61-.05.17-.03.3-.09.41-.17.1-.07.18-.17.23-.28.05-.11.07-.25.07-.4Z"/>
+            <g>
+              <path class="cls-3" d="M24.6,219.72h-8.85v-4.91h24.57v4.91h-8.81v23.81h-6.91v-23.81Z"/>
+              <path class="cls-3" d="M45.18,214.81h12.93c3.84,0,6.61.46,8.32,1.39,1.71.93,2.57,2.49,2.57,4.67v5.05c0,1.68-.6,3-1.79,3.96-1.2.96-2.78,1.57-4.76,1.84l8.32,11.82h-7.97l-7.53-11.29h-3.19v11.29h-6.91v-28.73ZM58.02,227.69c1.62,0,2.73-.21,3.32-.64.59-.43.89-1.26.89-2.5v-2.04c0-1.06-.32-1.79-.95-2.19-.63-.4-1.72-.6-3.25-.6h-5.93v7.97h5.93Z"/>
+              <path class="cls-3" d="M84.14,214.81h8.41l10.36,28.73h-6.99l-2.57-7.57h-10.49l-2.52,7.57h-6.82l10.62-28.73ZM91.84,231.37l-3.63-10.8h-.18l-3.63,10.8h7.44Z"/>
+              <path class="cls-3" d="M106.98,214.81h6.91v28.73h-6.91v-28.73Z"/>
+              <path class="cls-3" d="M120.97,214.81h6.99l13.9,19.61v-19.61h6.15v28.73h-6.99l-13.9-19.92v19.92h-6.15v-28.73Z"/>
+              <path class="cls-3" d="M155.09,214.81h6.91v28.73h-6.91v-28.73Z"/>
+              <path class="cls-3" d="M169.08,214.81h6.99l13.9,19.61v-19.61h6.15v28.73h-6.99l-13.9-19.92v19.92h-6.15v-28.73Z"/>
+              <path class="cls-3" d="M212.06,243.76c-1.27-.15-2.52-.4-3.76-.75-1.33-.35-2.42-.83-3.28-1.44-.86-.6-1.55-1.39-2.08-2.37-.53-1.03-.8-2.21-.8-3.54v-11.95c0-1.45.29-2.75.89-3.92.59-1.17,1.39-2.09,2.39-2.77.94-.62,2.07-1.15,3.39-1.59,1.31-.44,2.6-.74,3.87-.89,1.06-.12,2.35-.18,3.85-.18,4.07,0,7.97.31,11.68.93v5.22c-3.42-.83-7.32-1.24-11.68-1.24-4.99,0-7.48,1.45-7.48,4.34v11.55c0,1.42.67,2.42,2.01,3.01s3.37.89,6.09.89c1.45,0,2.99-.22,4.65-.66v-6.68h-4.69v-4.52h11.29v14.92c-1.48.53-3.36.97-5.64,1.33-2.29.35-4.39.53-6.31.53-1.65,0-3.11-.07-4.38-.22Z"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <h1 class="hero-headline">Train Like an Athlete</h1>
+    <p class="hero-tagline">The Place for the Athlete</p>
+    <span class="hero-location">
+      <svg viewBox="0 0 16 20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 0C4.69 0 2 2.69 2 6c0 4.5 6 14 6 14s6-9.5 6-14c0-3.31-2.69-6-6-6zm0 8.5A2.5 2.5 0 1 1 8 3.5a2.5 2.5 0 0 1 0 5z"/>
+      </svg>
+      Cary, NC
+    </span>
+  </div>
+</header>
+
+<!-- ── FORM ── -->
+<main class="form-wrapper">
+  <form id="leadForm" novalidate>
+
+    <!-- CONTACT INFO -->
+    <div class="section-label">Your Info</div>
+
+    <div class="field-row">
+      <div class="field" id="field-firstName">
+        <label for="firstName">First Name <span class="req">*</span></label>
+        <input type="text" id="firstName" name="firstName" placeholder="Alex" autocomplete="given-name" inputmode="text" />
+        <span class="field-error">First name is required</span>
+      </div>
+      <div class="field" id="field-lastName">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" placeholder="Smith" autocomplete="family-name" inputmode="text" />
+      </div>
+    </div>
+
+    <div class="field-row" style="margin-top:10px;">
+      <div class="field" id="field-phone">
+        <label for="phone">Phone <span class="req">*</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="(919) 555-0100" autocomplete="tel" inputmode="tel" />
+        <span class="field-error">Valid phone required</span>
+      </div>
+      <div class="field" id="field-email">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="alex@email.com" autocomplete="email" inputmode="email" />
+        <span class="field-error">Enter a valid email</span>
+      </div>
+    </div>
+
+    <div class="field-row" style="margin-top:10px;">
+      <div class="field" id="field-zip">
+        <label for="zip">Zip Code</label>
+        <input type="text" id="zip" name="zip" placeholder="27513" inputmode="numeric" maxlength="10" />
+      </div>
+    </div>
+
+    <!-- LOCATION -->
+    <div class="divider"></div>
+    <div class="section-label">Location</div>
+
+    <div class="field">
+      <label>Which location interests you?</label>
+      <div class="chip-group">
+        <label>
+          <input type="radio" name="location" value="Cary" checked />
+          <span class="chip">📍 Cary</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- WHO ARE YOU TRAINING -->
+    <div class="divider"></div>
+    <div class="section-label">Training</div>
+
+    <div class="field">
+      <label>Who are you training?</label>
+      <div class="pill-group">
+        <label>
+          <input type="checkbox" name="whoTraining" value="Myself" />
+          <span class="pill">
+            <span class="check-icon"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>
+            Myself
+          </span>
+        </label>
+        <label>
+          <input type="checkbox" name="whoTraining" value="My Kids" />
+          <span class="pill">
+            <span class="check-icon"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>
+            My Kids
+          </span>
+        </label>
+        <label>
+          <input type="checkbox" name="whoTraining" value="Teen Athlete" />
+          <span class="pill">
+            <span class="check-icon"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>
+            Teen Athlete
+          </span>
+        </label>
+        <label>
+          <input type="checkbox" name="whoTraining" value="Family" />
+          <span class="pill">
+            <span class="check-icon"><svg viewBox="0 0 10 8"><polyline points="1,4 4,7 9,1"/></svg></span>
+            Family
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- PRIMARY GOAL -->
+    <div style="margin-top:16px;" class="field" id="field-goal">
+      <label for="goal">Primary Goal</label>
+      <select id="goal" name="goal">
+        <option value="" disabled selected>Select your goal…</option>
+        <option value="Build strength">Build strength</option>
+        <option value="Lose weight">Lose weight</option>
+        <option value="Athletic performance">Athletic performance</option>
+        <option value="Youth training">Youth training</option>
+        <option value="Speed &amp; agility">Speed &amp; agility</option>
+        <option value="General fitness">General fitness</option>
+        <option value="Not sure yet">Not sure yet</option>
+      </select>
+    </div>
+
+    <!-- HOW DID YOU HEAR -->
+    <div class="divider" style="margin-top:24px;"></div>
+    <div class="section-label">One Last Thing</div>
+
+    <div class="field" id="field-source">
+      <label for="source">How did you hear about us?</label>
+      <select id="source" name="source">
+        <option value="" disabled selected>Select one…</option>
+        <option value="Personal referral">Personal referral</option>
+        <option value="Social media">Social media</option>
+        <option value="Saw the location">Saw the location</option>
+        <option value="This event">This event</option>
+        <option value="Email/text">Email / text</option>
+        <option value="D1 website">D1 website</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="submit-btn" id="submitBtn">
+      <span class="btn-text">Get Started →</span>
+      <span class="btn-loader"></span>
+    </button>
+
+    <p class="form-note">By submitting, you agree to be contacted by D1 Training Cary.<br>Your information will never be shared or sold.</p>
+
+  </form>
+</main>
+
+<!-- ── SUCCESS SCREEN ── -->
+<div id="successScreen">
+  <div class="success-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 257.79 248.83">
+      <defs>
+        <style>
+          .s1 { fill-rule: evenodd; }
+          .s1, .s2 { fill: #C8102E; }
+          .s3 { fill: #ffffff; }
+          .s4 { fill: rgba(255,255,255,0.45); }
+        </style>
+      </defs>
+      <g><g>
+        <path class="s3" d="M29.45,12.06h186.47c9.5,0,17.21,7.71,17.21,17.21v144.4c0,9.5-7.71,17.21-17.21,17.21H29.45c-9.5,0-17.21-7.71-17.21-17.21V29.28c0-9.5,7.71-17.21,17.21-17.21Z"/>
+        <path class="s4" d="M215.93,12.06c9.51,0,17.21,7.71,17.21,17.21v144.4c0,9.51-7.7,17.21-17.21,17.21H29.45c-9.51,0-17.21-7.71-17.21-17.21V29.28c0-9.51,7.71-17.21,17.21-17.21h186.48M215.93,4.85H29.45C15.98,4.85,5.02,15.81,5.02,29.28v144.4c0,13.47,10.96,24.43,24.43,24.43h186.48c13.47,0,24.43-10.96,24.43-24.43V29.28c0-13.47-10.96-24.43-24.43-24.43h0Z"/>
+        <g>
+          <path class="s1" d="M50.06,41.38c25.4.19,48.31-2.39,64.11,6.73,9.8,5.66,17.37,13.23,22.43,23.07,19.45,37.77-6.09,81.84-41.34,84.95-15.06,1.32-27.9.37-45.51.31V42.34c-.03-.45-.05-.91.32-.96ZM77.31,67.98v62.5c13.57.88,22.61-.69,29.49-8.33,14.37-15.94,9.34-49.73-12.51-54.49-5.24-1.14-10.05-.34-16.66-.64-.37.05-.34.51-.32.96Z"/>
+          <path class="s1" d="M188.85,48.11v76.28h-18.91c-.11-11.42.14-27.02,0-40.38-.05-4.38.36-9.87-.96-12.18-2.15-3.76-7.97-1.97-12.18-2.56v-8.97c9.29-1.82,15.85-6.37,21.15-12.18h10.9Z"/>
+        </g>
+        <rect class="s2" x="155.18" y="139.46" width="51.94" height="16.57"/>
+        <g>
+          <path class="s3" d="M24.6,219.72h-8.85v-4.91h24.57v4.91h-8.81v23.81h-6.91v-23.81Z"/>
+          <path class="s3" d="M45.18,214.81h12.93c3.84,0,6.61.46,8.32,1.39,1.71.93,2.57,2.49,2.57,4.67v5.05c0,1.68-.6,3-1.79,3.96-1.2.96-2.78,1.57-4.76,1.84l8.32,11.82h-7.97l-7.53-11.29h-3.19v11.29h-6.91v-28.73ZM58.02,227.69c1.62,0,2.73-.21,3.32-.64.59-.43.89-1.26.89-2.5v-2.04c0-1.06-.32-1.79-.95-2.19-.63-.4-1.72-.6-3.25-.6h-5.93v7.97h5.93Z"/>
+          <path class="s3" d="M84.14,214.81h8.41l10.36,28.73h-6.99l-2.57-7.57h-10.49l-2.52,7.57h-6.82l10.62-28.73ZM91.84,231.37l-3.63-10.8h-.18l-3.63,10.8h7.44Z"/>
+          <path class="s3" d="M106.98,214.81h6.91v28.73h-6.91v-28.73Z"/>
+          <path class="s3" d="M120.97,214.81h6.99l13.9,19.61v-19.61h6.15v28.73h-6.99l-13.9-19.92v19.92h-6.15v-28.73Z"/>
+          <path class="s3" d="M155.09,214.81h6.91v28.73h-6.91v-28.73Z"/>
+          <path class="s3" d="M169.08,214.81h6.99l13.9,19.61v-19.61h6.15v28.73h-6.99l-13.9-19.92v19.92h-6.15v-28.73Z"/>
+          <path class="s3" d="M212.06,243.76c-1.27-.15-2.52-.4-3.76-.75-1.33-.35-2.42-.83-3.28-1.44-.86-.6-1.55-1.39-2.08-2.37-.53-1.03-.8-2.21-.8-3.54v-11.95c0-1.45.29-2.75.89-3.92.59-1.17,1.39-2.09,2.39-2.77.94-.62,2.07-1.15,3.39-1.59,1.31-.44,2.6-.74,3.87-.89,1.06-.12,2.35-.18,3.85-.18,4.07,0,7.97.31,11.68.93v5.22c-3.42-.83-7.32-1.24-11.68-1.24-4.99,0-7.48,1.45-7.48,4.34v11.55c0,1.42.67,2.42,2.01,3.01s3.37.89,6.09.89c1.45,0,2.99-.22,4.65-.66v-6.68h-4.69v-4.52h11.29v14.92c-1.48.53-3.36.97-5.64,1.33-2.29.35-4.39.53-6.31.53-1.65,0-3.11-.07-4.38-.22Z"/>
+        </g>
+      </g></g>
+    </svg>
+  </div>
+
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+
+  <h2 class="success-title">You're In!</h2>
+  <div class="success-divider"></div>
+  <p class="success-sub">
+    Welcome to <strong>D1 Training Cary</strong>. Our team will be in touch soon to get you started on your athletic journey.
+  </p>
+</div>
+
+<script>
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbyoZ11O4sRkgh3GOLAnssr_SZ1uvtL---mfcO8nPI3EoGXQqv8566brrddfIgFinafQ/exec';
+
+  const form = document.getElementById('leadForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successScreen = document.getElementById('successScreen');
+
+  /* ── Phone auto-format ── */
+  document.getElementById('phone').addEventListener('input', function () {
+    let v = this.value.replace(/\D/g, '').slice(0, 10);
+    if (v.length >= 7)      v = '(' + v.slice(0,3) + ') ' + v.slice(3,6) + '-' + v.slice(6);
+    else if (v.length >= 4) v = '(' + v.slice(0,3) + ') ' + v.slice(3);
+    this.value = v;
+  });
+
+  /* ── Validation helpers ── */
+  function setValid(fieldId)   { document.getElementById('field-' + fieldId)?.classList.remove('invalid'); }
+  function setInvalid(fieldId) { document.getElementById('field-' + fieldId)?.classList.add('invalid'); }
+
+  function validate() {
+    let ok = true;
+
+    const fn = document.getElementById('firstName').value.trim();
+    if (!fn) { setInvalid('firstName'); ok = false; } else setValid('firstName');
+
+    const ph = document.getElementById('phone').value.replace(/\D/g, '');
+    if (ph.length < 10) { setInvalid('phone'); ok = false; } else setValid('phone');
+
+    const em = document.getElementById('email').value.trim();
+    if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { setInvalid('email'); ok = false; } else setValid('email');
+
+    return ok;
+  }
+
+  /* ── Collect form data ── */
+  function collectData() {
+    const whoCheckboxes = [...document.querySelectorAll('input[name="whoTraining"]:checked')].map(c => c.value);
+    return {
+      firstName:   document.getElementById('firstName').value.trim(),
+      lastName:    document.getElementById('lastName').value.trim(),
+      phone:       document.getElementById('phone').value.trim(),
+      email:       document.getElementById('email').value.trim(),
+      zip:         document.getElementById('zip').value.trim(),
+      location:    document.querySelector('input[name="location"]:checked')?.value || '',
+      whoTraining: whoCheckboxes,
+      goal:        document.getElementById('goal').value,
+      source:      document.getElementById('source').value,
+      submittedAt: new Date().toISOString(),
+    };
+  }
+
+  /* ── Submit ── */
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!validate()) {
+      // scroll to first error
+      const firstErr = form.querySelector('.invalid');
+      if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+
+    const payload = collectData();
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (err) {
+      console.warn('Submission error:', err);
+      // Still show success — no-cors means we can't read the response
+    }
+
+    submitBtn.classList.remove('loading');
+    successScreen.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ── Clear validation on input ── */
+  form.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('input', () => {
+      const fieldWrap = el.closest('.field');
+      if (fieldWrap) fieldWrap.classList.remove('invalid');
+    });
+  });
+</script>
+</body>
+</html>
